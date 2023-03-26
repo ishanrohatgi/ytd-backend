@@ -18,7 +18,7 @@ res.status(206);
   const range = req.headers.range;
   const fileSize = parseInt(videoInfo.videoDetails.lengthSeconds) * 1000000;
   const CHUNK_SIZE = 10 ** 6; // 1MB
-  const start = Number(range.replace(/\D/g, ''));
+  const start = Number(range?.replace(/\D/g, ''));
   const end = Math.min(start + CHUNK_SIZE, fileSize - 1);
 
   // Set response headers for partial content
