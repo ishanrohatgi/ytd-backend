@@ -5,16 +5,11 @@ const app = express();
 app.use(cors());
 
 app.get('/',  cors() ,async (req, res)=>{
-const url = req.query.url;
-const title =req.query.title;
+const url ='https://www.youtube.com/watch?v=DSb7tmVcZm4';
+const title ='file';
 const videoInfo = await ytdl.getInfo(url);
-const format = videoInfo.formats.reduce((prev, current) => {
-    if (prev.resolution == null) return current;
-    if (current.resolution == null) return prev;
-    return parseInt(current.resolution.slice(0, -1)) > parseInt(prev.resolution.slice(0, -1)) ? current : prev;
-  });
 
- ytdl(url, { format }).pipe(res);
+ ytdl(url, { quality: 'highest' }).pipe(res);
  res.setHeader('Content-Type', 'video/mp4');
  res.header('Content-Disposition', `attachment; filename=${title}.mp4`);
 })
