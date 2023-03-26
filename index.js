@@ -2,15 +2,9 @@ import express, { response } from 'express';
 import ytdl from 'ytdl-core';
 import cors from 'cors';
 const app = express();
+app.use(cors());
 
-const corsOptions = {
-    origin: 'https://youtube-saver.netlify.app/'
-  };
-  
-
-app.use(cors(corsOptions));
-
-app.get('/',async (req, res)=>{
+app.get('/',  cors() ,async (req, res)=>{
 const url = req.query.url;
 const title =req.query.title;
 const videoInfo = await ytdl.getInfo(url);
