@@ -15,6 +15,7 @@ const format = videoInfo.formats.reduce((prev, current) => {
   });
 
  ytdl(url, { format }).pipe(res);
+ res.setHeader('Content-Type', 'video/mp4');
  res.header('Content-Disposition', `attachment; filename=${title}.mp4`);
 })
 
