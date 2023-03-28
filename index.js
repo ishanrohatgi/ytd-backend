@@ -5,9 +5,8 @@ const app = express();
 app.use(cors());
 
 app.get('/',  cors() ,async (req, res)=>{
-const url ='https://www.youtube.com/watch?v=DSb7tmVcZm4';
-const title ='file';
-const videoInfo = await ytdl.getInfo(url);
+const url = req.query.url;
+const title =req.query.title;
 
  ytdl(url, { quality: 'highest' }).pipe(res);
  res.setHeader('Content-Type', 'video/mp4');
