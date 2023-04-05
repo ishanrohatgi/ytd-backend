@@ -1,10 +1,9 @@
 import express, { response } from 'express';
 import ytdl from 'ytdl-core';
-import cors from 'cors';
 const app = express();
-app.use(cors());
 
-app.get('/',  cors() ,async (req, res)=>{
+
+app.get('/',async (req, res)=>{
 const url = req.query.url;
 const title =req.query.title;
 
