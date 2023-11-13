@@ -5,15 +5,24 @@ import cors from 'cors';
 app.use(cors());
 
 app.get('/',async (req, res)=>{
-const url = req.query.url;
-const title =req.query.title;
+const videoURL = req.query.url; // Assuming the URL is passed as a query parameter
+ 
+  const outputPath = `{req.query.title}.mp4`; // Output file name
 
- // ytdl(url, { quality: 'highest' }).pipe(res);
- // res.setHeader('Content-Type', 'video/mp4');
- // res.header('Content-Disposition', `attachment; filename=${title}.mp4`);
+  try {
+    const videoInfo = await ytdl.getInfo(videoURL);
+    const videoFormat = ytdl.chooseFormat(videoInfo.formats, { quality: 'highest' });
 
- ytdl(url, { quality: 'highest' })
-  .pipe(fs.createWriteStream('${title}.mp4'));
+    if (videoFormat) {
+      res.header('Content-Disposition', `attachment; filename="${videoInfo.title}.mp4"`);
+      ytdl(videoURL)
+        .pipe(res);
+    } else {
+      res.status(404).send('No suitable video format found.');
+    }
+  } catch (error) {
+    res.status(500).send('Error downloading the video.');
+  }
 })
 
 
